@@ -25,6 +25,5 @@ public class Subscribe {
     private Teacher teacher;
     //时间
     private Date createTime;
-    //状态
-    private Integer state;
+
 }

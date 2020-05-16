@@ -3,6 +3,7 @@ package com.example.psychology.entity;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -30,9 +31,10 @@ public class Student {
     //密码
     private String password;
     //学生的预约
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     private List<Subscribe> subscribeList = new ArrayList<>();
     //学生的消息
     @OneToMany(mappedBy = "student")
     private List<Message> messageList = new ArrayList<>();
+
 }

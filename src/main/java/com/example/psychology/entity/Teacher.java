@@ -2,9 +2,7 @@ package com.example.psychology.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +21,14 @@ public class Teacher {
     private String password;
     //性别
     private String sex;
+    //在线
+    @Transient
+    private boolean subscribed;
     //老师的预约
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     private List<Subscribe> subscribeList = new ArrayList<>();
     //老师的消息
     @OneToMany(mappedBy = "teacher")
     private List<Message> messageList = new ArrayList<>();
+
 }
