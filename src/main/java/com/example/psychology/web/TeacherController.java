@@ -1,5 +1,6 @@
 package com.example.psychology.web;
 
+import com.example.psychology.Comman.PageInfo;
 import com.example.psychology.entity.Student;
 import com.example.psychology.entity.Teacher;
 import com.example.psychology.service.StudentService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -90,9 +92,10 @@ public class TeacherController {
     }
 
     @PostMapping("doLogin")
-    public String signIn(@RequestParam String id, @RequestParam String password, HttpSession session) {
+    public String signIn(@RequestParam String id, @RequestParam String password, HttpSession session, RedirectAttributes attributes) {
         Teacher teacher = teacherService.signIn(id, password);
         if (teacher == null) {
+            attributes.addFlashAttribute("info", new PageInfo("error", "登陆失败，请检查用户名和密码"));
             return "redirect:/teacher/login";
         } else {
             session.setAttribute("currentTeacher", teacher);
@@ -101,15 +104,17 @@ public class TeacherController {
     }
 
     @PostMapping("doRegister")
-    public String doRegister(Teacher teacher) {
+    public String doRegister(Teacher teacher, RedirectAttributes attributes) {
         teacherService.save(teacher);
+        attributes.addFlashAttribute("info", new PageInfo("success", "注册成功"));
         return "redirect:/teacher/login";
     }
 
     @PostMapping("doUpdate")
-    public String doUpdate(Teacher teacher, HttpSession session) {
+    public String doUpdate(Teacher teacher, HttpSession session, RedirectAttributes attributes) {
         session.setAttribute("currentTeacher", teacherService.save(teacher));
-        return "redirect:/teacher/home";
+        attributes.addFlashAttribute("info", new PageInfo("success", "信息修改成功"));
+        return "redirect:/teacher/profile";
     }
 
     @PostMapping("doDocument")
@@ -119,8 +124,9 @@ public class TeacherController {
     }
 
     @GetMapping("doLogout")
-    public String doLogout(HttpSession session) {
+    public String doLogout(HttpSession session, RedirectAttributes attributes) {
         session.invalidate();
+        attributes.addFlashAttribute("info", new PageInfo("success", "注销登陆成功"));
         return "redirect:/teacher/login";
     }
 
@@ -131,7 +137,7 @@ public class TeacherController {
     }
 
     @PostMapping("doPassword")
-    public String doPassword(@RequestParam String password, @RequestParam String oldPassword, HttpSession session) {
+    public String doPassword(@RequestParam String password, @RequestParam String oldPassword, HttpSession session, RedirectAttributes attributes) {
         Teacher current = (Teacher) session.getAttribute("currentTeacher");
         String id = current.getId();
         Teacher old = teacherService.findById(id);
@@ -139,8 +145,10 @@ public class TeacherController {
             old.setPassword(password);
             teacherService.save(old);
             session.invalidate();
+            attributes.addFlashAttribute("info", new PageInfo("success", "密码修改成功，请重新登陆"));
             return "redirect:/teacher/login";
         }
+        attributes.addFlashAttribute("info", new PageInfo("error", "密码修改失败"));
         return "redirect:/teacher/password";
     }
 }

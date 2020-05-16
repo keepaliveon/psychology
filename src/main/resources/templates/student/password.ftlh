@@ -53,6 +53,19 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <h4>修改密码</h4>
+            <#if info?exists>
+                <#if info.type="success">
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>提示!</strong> ${info.message}
+                    </div>
+                <#elseif info.type="error">
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>错误!</strong> ${info.message}
+                    </div>
+                </#if>
+            </#if>
             <form action="/student/doPassword" method="post">
                 <div class="form-group">
                     <label for="password">旧密码:</label>
