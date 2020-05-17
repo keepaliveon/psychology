@@ -1,7 +1,9 @@
 package com.example.psychology.web;
 
+import com.example.psychology.Comman.ChatSession;
 import com.example.psychology.Comman.PageInfo;
 import com.example.psychology.entity.Student;
+import com.example.psychology.entity.Subscribe;
 import com.example.psychology.entity.Teacher;
 import com.example.psychology.service.StudentService;
 import com.example.psychology.service.SubscribeService;
@@ -131,8 +133,13 @@ public class TeacherController {
     }
 
     @GetMapping("doSubscribe")
-    public String doSubscribe(@RequestParam String id) {
+    public String doSubscribe(@RequestParam String id, RedirectAttributes attributes) {
+        Subscribe subscribe = subscribeService.find(id);
         subscribeService.remove(id);
+        ChatSession chatSession = new ChatSession();
+        chatSession.setFromId(subscribe.getTeacher().getId());
+        chatSession.setToId(subscribe.getStudent().getId());
+        attributes.addFlashAttribute("chatSession", chatSession);
         return "redirect:/teacher/chat";
     }
 

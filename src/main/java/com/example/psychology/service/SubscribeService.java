@@ -27,6 +27,10 @@ public class SubscribeService {
     @Resource
     private TeacherRepository teacherRepository;
 
+    public Subscribe find(String id) {
+        return subscribeRepository.findById(id).orElse(null);
+    }
+
     public void create(String studentId, String staffId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         Optional<Teacher> teacherOptional = teacherRepository.findById(staffId);

@@ -1,5 +1,6 @@
 package com.example.psychology.web;
 
+import com.example.psychology.Comman.ChatSession;
 import com.example.psychology.Comman.PageInfo;
 import com.example.psychology.entity.Student;
 import com.example.psychology.entity.Subscribe;
@@ -121,6 +122,10 @@ public class StudentController {
     public String doSubscribe(@RequestParam String id, RedirectAttributes attributes, HttpSession session) {
         Student student = (Student) session.getAttribute("currentStudent");
         subscribeService.create(student.getId(), id);
+        ChatSession chatSession = new ChatSession();
+        chatSession.setFromId(student.getId());
+        chatSession.setToId(id);
+        attributes.addFlashAttribute("chatSession", chatSession);
         return "redirect:/student/chat";
     }
 

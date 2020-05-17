@@ -29,6 +29,3 @@ spring:
 app:
   jwtSecret: e07e56d6258c
   jwtExpirationInMs: 604800000
-
-server:
-  port: 8080
