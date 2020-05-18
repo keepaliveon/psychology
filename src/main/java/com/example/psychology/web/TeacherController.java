@@ -52,7 +52,8 @@ public class TeacherController {
 
     @GetMapping("home")
     public ModelAndView home(HttpSession session) {
-        Teacher teacher = (Teacher) session.getAttribute("currentTeacher");
+        Teacher currentTeacher = (Teacher) session.getAttribute("currentTeacher");
+        Teacher teacher = teacherService.findById(currentTeacher.getId());
         ModelAndView modelAndView = new ModelAndView("/teacher/home");
         modelAndView.addObject("teacher", teacher);
         modelAndView.addObject("subscribeList", teacher.getSubscribeList());
@@ -137,9 +138,11 @@ public class TeacherController {
         Subscribe subscribe = subscribeService.find(id);
         subscribeService.remove(id);
         ChatSession chatSession = new ChatSession();
+        chatSession.setFromName(subscribe.getTeacher().getName());
         chatSession.setFromId(subscribe.getTeacher().getId());
+        chatSession.setToName(subscribe.getTeacher().getName());
         chatSession.setToId(subscribe.getStudent().getId());
-        attributes.addFlashAttribute("chatSession", chatSession);
+        attributes.addAttribute("chatSession", chatSession);
         return "redirect:/teacher/chat";
     }
 

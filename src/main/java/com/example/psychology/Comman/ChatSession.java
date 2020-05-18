@@ -4,6 +4,9 @@ import lombok.Data;
 
 @Data
 public class ChatSession {
+    private String subscribeId;
+    private String fromName;
     private String fromId;
+    private String toName;
     private String toId;
 }

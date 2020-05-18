@@ -1,7 +1,6 @@
 package com.example.psychology;
 
 import com.alibaba.fastjson.JSON;
-import com.example.psychology.Comman.Message;
 import com.example.psychology.service.StudentService;
 import com.example.psychology.service.TeacherService;
 import com.google.gson.Gson;
@@ -25,12 +24,6 @@ class PsychologyApplicationTests {
 
 	@Test
 	void t1() {
-		Message message = JSON.parseObject("{\"to\":\"201612211415\",\"text\":\"ddd\"}", Message.class);
-		System.out.println(message);
-		System.out.println("{\"to\":\"201612211415\",\"text\":\"ddd\"}");
-		Gson gson = new Gson();
-		Message message1 = gson.fromJson("{\"to\":\"201612211415\",\"text\":\"ddd\"}", Message.class);
-		System.out.println(message1);
 	}
 
 }

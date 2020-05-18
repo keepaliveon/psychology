@@ -31,17 +31,20 @@ public class SubscribeService {
         return subscribeRepository.findById(id).orElse(null);
     }
 
-    public void create(String studentId, String staffId) {
+    public Subscribe create(String studentId, String staffId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         Optional<Teacher> teacherOptional = teacherRepository.findById(staffId);
+        Subscribe subscribe = new Subscribe();
         if (studentOptional.isPresent() && teacherOptional.isPresent()) {
-            Subscribe subscribe = new Subscribe();
             subscribe.setId(UUIDUtils.SerialNum());
             subscribe.setCreateTime(new Date());
             subscribe.setStudent(studentOptional.get());
             subscribe.setTeacher(teacherOptional.get());
-            subscribeRepository.save(subscribe);
+        } else {
+            return null;
         }
+        return subscribeRepository.save(subscribe);
+
     }
 
     public void remove(String id) {

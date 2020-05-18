@@ -25,7 +25,7 @@ public class Teacher {
     @Transient
     private boolean subscribed;
     //老师的预约
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teacher")
     private List<Subscribe> subscribeList = new ArrayList<>();
     //老师的消息
     @OneToMany(mappedBy = "teacher")
