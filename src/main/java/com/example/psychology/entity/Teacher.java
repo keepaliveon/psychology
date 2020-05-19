@@ -24,6 +24,8 @@ public class Teacher {
     //在线
     @Transient
     private boolean subscribed;
+    @Transient
+    private String subscribeId;
     //老师的预约
     @OneToMany(mappedBy = "teacher")
     private List<Subscribe> subscribeList = new ArrayList<>();

@@ -85,6 +85,7 @@ public class StudentController {
             for (Subscribe subscribe : subscribeList) {
                 if (subscribe.getStudent().getId().equals(student.getId())) {
                     item.setSubscribed(true);
+                    item.setSubscribeId(subscribe.getId());
                 }
             }
         }

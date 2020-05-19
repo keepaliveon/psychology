@@ -74,7 +74,7 @@
                         <td>${teacher.sex!}</td>
                         <td>
                             <#if teacher.subscribed>
-                                <a class="btn btn-default btn-sm" href="#">已预约</a>
+                                <a class="btn btn-default btn-sm" href="/student/chat?id=${teacher.subscribeId!}">已预约</a>
                             <#else >
                                 <a class="btn btn-success btn-sm" href="/student/doSubscribe?id=${teacher.id!}">预约</a>
                             </#if>
