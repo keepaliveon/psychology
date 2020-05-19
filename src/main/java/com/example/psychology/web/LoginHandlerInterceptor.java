@@ -31,7 +31,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
-        if (uri.contains("/student")) {
+        if (uri.contains("/student/")) {
             if (request.getSession().getAttribute("currentStudent") != null) {
                 return true;
             } else {
@@ -39,7 +39,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 return false;
             }
         }
-        if (uri.contains("/teacher")) {
+        if (uri.contains("/teacher/")) {
             if (request.getSession().getAttribute("currentTeacher") != null) {
                 return true;
             } else {
