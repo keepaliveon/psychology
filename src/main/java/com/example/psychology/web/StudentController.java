@@ -66,7 +66,6 @@ public class StudentController {
         modelAndView.addObject("student", student);
         Subscribe subscribe = subscribeService.find(id);
         ChatSession chatSession = new ChatSession();
-        chatSession.setSubscribeId(subscribe.getId());
         chatSession.setFromName(subscribe.getStudent().getName());
         chatSession.setFromId(subscribe.getStudent().getId());
         chatSession.setToName(subscribe.getTeacher().getName());

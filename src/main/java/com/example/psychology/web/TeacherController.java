@@ -61,10 +61,18 @@ public class TeacherController {
     }
 
     @GetMapping("chat")
-    public ModelAndView session(HttpSession session) {
+    public ModelAndView session(@RequestParam String id, HttpSession session) {
         Teacher teacher = (Teacher) session.getAttribute("currentTeacher");
         ModelAndView modelAndView = new ModelAndView("/teacher/chat");
         modelAndView.addObject("teacher", teacher);
+        Subscribe subscribe = subscribeService.find(id);
+        ChatSession chatSession = new ChatSession();
+        chatSession.setFromName(subscribe.getTeacher().getName());
+        chatSession.setFromId(subscribe.getTeacher().getId());
+        chatSession.setToName(subscribe.getStudent().getName());
+        chatSession.setToId(subscribe.getStudent().getId());
+        modelAndView.addObject("chatSession", chatSession);
+        subscribeService.remove(id);
         return modelAndView;
     }
 
@@ -135,14 +143,7 @@ public class TeacherController {
 
     @GetMapping("doSubscribe")
     public String doSubscribe(@RequestParam String id, RedirectAttributes attributes) {
-        Subscribe subscribe = subscribeService.find(id);
-        subscribeService.remove(id);
-        ChatSession chatSession = new ChatSession();
-        chatSession.setFromName(subscribe.getTeacher().getName());
-        chatSession.setFromId(subscribe.getTeacher().getId());
-        chatSession.setToName(subscribe.getTeacher().getName());
-        chatSession.setToId(subscribe.getStudent().getId());
-        attributes.addAttribute("chatSession", chatSession);
+        attributes.addAttribute("id", id);
         return "redirect:/teacher/chat";
     }
 

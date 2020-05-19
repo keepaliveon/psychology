@@ -51,22 +51,41 @@
     </div>
 </nav>
 <div class="container">
-    <h4>教师端(${chatSession.name!})</h4>
-    <input type="text" id="message_input">
-    <button onclick="sendMessage()">发送</button>
+    <h3 style="margin-top: 10px">教师端(${chatSession.fromName!})</h3>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">与${chatSession.toName!}的对话</h5>
+            <ul></ul>
+        </div>
+        <div class="card-footer">
+            <div class="input-group">
+                <input type="text" class="form-control" id="message_input" placeholder="请输入内容">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-    let webSocket = new WebSocket("ws://localhost:8080/websocket/${chatSession.fromId!}");
+    let webSocket = new WebSocket("ws://localhost:8080/websocket/${chatSession.fromId!}:${chatSession.toId!}");
     webSocket.onopen = function () {
-        console.log("教师端(${chatSession.name!})与websocket_server的连接打开了")
+        console.log("教师端(${chatSession.fromName!})与websocket_server的连接打开了")
     }
     webSocket.onmessage = function (evt) {
-        console.log(evt.data)
+        $("ul").append("<li>" + evt.data + "</li>");
     }
-    let element = document.getElementById("message_input");
 
     function sendMessage() {
-        webSocket.send("${chatSession.toId}:" + element.value)
+        let data = {
+            fromName: '${chatSession.fromName!}',
+            toName: '${chatSession.toName!}',
+            fromId: '${chatSession.fromId!}',
+            toId: '${chatSession.toId!}',
+            text: $("#message_input").val(),
+        }
+        webSocket.send(JSON.stringify(data));
+        $("#message_input").val("")
     }
 </script>
 </body>
